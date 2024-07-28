@@ -26,6 +26,10 @@ class GiphyProvider with ChangeNotifier {
       try {
         _gifs = await _giphyService.searchGifs(query, 0);
         _errorMessage = null;
+        if (_gifs.length<20){
+          _allResultsFetched=true;
+        }
+        else _allResultsFetched=false;
       } catch (e) {
         _errorMessage = e.toString();
       } finally {

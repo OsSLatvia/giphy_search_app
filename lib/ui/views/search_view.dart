@@ -13,7 +13,7 @@ class SearchView extends StatelessWidget {
         appBar: AppBar(title: Text('Giphy Search')),
         body: Column(
           children: [
-            mySearchBar.SearchBar(),  // This should be used as a widget, not a function call
+            mySearchBar.SearchBar(), 
             Expanded(child: GifGrid()),
           ],
         ),

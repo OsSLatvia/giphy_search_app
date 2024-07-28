@@ -2,14 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../providers/giphy_provider.dart';
-import '../views/detail_view.dart';
+import '../../utils/coordinator.dart'; 
 
-class GifGrid extends StatelessWidget {
+class GifGrid extends StatefulWidget {
+  @override
+  _GifGridState createState() => _GifGridState();
+}
+
+class _GifGridState extends State<GifGrid> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.atEdge) {
+      bool isBottom = _scrollController.position.pixels != 0;
+      if (isBottom) {
+        Provider.of<GiphyProvider>(context, listen: false).loadMoreGifs();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GiphyProvider>(context);
 
-    if (provider.isLoading) {
+  // Trigger an initial load if the list isn't filling the screen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    final maxScrollExtent = _scrollController.position.maxScrollExtent;
+      if (maxScrollExtent<250 && !provider.isLoading && provider.errorMessage == null && provider.allResultsFetched == false) {
+        Provider.of<GiphyProvider>(context, listen: false).loadMoreGifs();
+      }
+    });
+
+    if (provider.isLoading && provider.gifs.isEmpty) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -18,21 +55,19 @@ class GifGrid extends StatelessWidget {
     }
 
     return GridView.builder(
+      controller: _scrollController,
       itemCount: provider.gifs.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
         childAspectRatio: 1.0,
+        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 4.0,
       ),
       itemBuilder: (context, index) {
         final gif = provider.gifs[index];
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailView(gif: gif),
-              ),
-            );
+            Coordinator.navigateToDetail(context, gif); // Use Coordinator for navigation
           },
           child: CachedNetworkImage(
             imageUrl: gif.url,
@@ -44,4 +79,3 @@ class GifGrid extends StatelessWidget {
     );
   }
 }
-  

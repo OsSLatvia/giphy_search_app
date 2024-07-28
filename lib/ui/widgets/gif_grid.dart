@@ -40,9 +40,11 @@ class _GifGridState extends State<GifGrid> {
 
   // Trigger an initial load if the list isn't filling the screen
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    final maxScrollExtent = _scrollController.position.maxScrollExtent;
-      if (maxScrollExtent<250 && !provider.isLoading && provider.errorMessage == null && provider.allResultsFetched == false) {
-        Provider.of<GiphyProvider>(context, listen: false).loadMoreGifs();
+      if (_scrollController.hasClients) {
+        final maxScrollExtent = _scrollController.position.maxScrollExtent;
+        if (maxScrollExtent < 250 && !provider.isLoading && provider.errorMessage == null && !provider.allResultsFetched) {
+          Provider.of<GiphyProvider>(context, listen: false).loadMoreGifs();
+        }
       }
     });
 

@@ -47,13 +47,17 @@ class _GifGridState extends State<GifGrid> {
         }
       }
     });
-
+    if (provider.errorMessage != null) {
+      return Center(child: Text(provider.errorMessage!));
+    }
+  //loadingIndicator is shown  olny if last gif list is empty, while loading if last list is not empty, keep showing last gifs.
     if (provider.isLoading && provider.gifs.isEmpty) {
       return Center(child: CircularProgressIndicator());
     }
 
-    if (provider.errorMessage != null) {
-      return Center(child: Text(provider.errorMessage!));
+  //if after loading list is still empty, no gifs have been found 
+    if (!provider.isLoading && provider.gifs.isEmpty) {
+      return Center(child: Text('No gifs found'));
     }
 
     return GridView.builder(

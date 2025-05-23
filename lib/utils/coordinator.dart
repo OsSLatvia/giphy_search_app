@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../ui/views/detail_view.dart';
-import '../models/gif.dart';
+import 'package:giphy_search_app/ui/views/detail_view.dart';
+import 'package:giphy_search_app/models/gif.dart';
 
 class Coordinator {
   static void navigateToDetail(BuildContext context, Gif gif) {

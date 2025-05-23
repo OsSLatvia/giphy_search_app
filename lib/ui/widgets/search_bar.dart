@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
-import '../../providers/giphy_provider.dart';
+import 'package:giphy_search_app/providers/giphy_provider.dart';
 
 class SearchBar extends StatefulWidget {
+  const SearchBar({super.key});
+
   @override
-  _SearchBarState createState() => _SearchBarState();
+  State <SearchBar> createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
@@ -30,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         onChanged: _onSearchChanged,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Search GIFs',
           border: OutlineInputBorder(),
         ),

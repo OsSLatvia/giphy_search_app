@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'package:giphy_search_app/app.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }

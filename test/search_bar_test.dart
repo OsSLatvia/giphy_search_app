@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
-import '../lib/providers/giphy_provider.dart';
-import '../lib/ui/widgets/search_bar.dart' as mySearchBar; // Adjust import based on your project structure
+import 'package:giphy_search_app/providers/giphy_provider.dart';
+import 'package:giphy_search_app/ui/widgets/search_bar.dart' as my_search_bar; // Adjust import based on your project structure
 
 // Mock class for GiphyProvider
 class MockGiphyProvider extends Mock implements GiphyProvider {
@@ -30,9 +29,9 @@ void main() {
     Widget createWidgetUnderTest() {
       return ChangeNotifierProvider<GiphyProvider>.value(
         value: mockGiphyProvider,
-        child: MaterialApp(
+        child: const MaterialApp(
           home: Scaffold(
-            body: mySearchBar.SearchBar(),
+            body: my_search_bar.SearchBar(),
           ),
         ),
       );
@@ -51,7 +50,7 @@ void main() {
       await tester.enterText(find.byType(TextField), 'test query');
 
       // Trigger the debounce
-      await tester.pump(Duration(milliseconds: 500));
+      await tester.pump(const Duration(milliseconds: 500));
       expect(mockGiphyProvider.searchGifsCallCount, equals(1));
     });
 
@@ -62,10 +61,10 @@ void main() {
       await tester.enterText(find.byType(TextField), 'query 1');
 
       // Trigger the debounce
-      await tester.pump(Duration(milliseconds: 100)); // Simulate 100ms
+      await tester.pump(const Duration(milliseconds: 100)); // Simulate 100ms
       expect(mockGiphyProvider.searchGifsCallCount, equals(0));
       await tester.enterText(find.byType(TextField), 'query 2');
-      await tester.pump(Duration(milliseconds: 500)); // Trigger debounce after 500ms
+      await tester.pump(const Duration(milliseconds: 500)); // Trigger debounce after 500ms
 
       // Verify that searchGifs was called with the final query
       expect(mockGiphyProvider.searchGifsCallCount, equals(1));

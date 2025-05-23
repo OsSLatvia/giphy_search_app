@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/giphy_provider.dart';
-import '../widgets/gif_grid.dart';
-import '../widgets/search_bar.dart' as mySearchBar;
+import 'package:giphy_search_app/providers/giphy_provider.dart';
+import 'package:giphy_search_app/ui/widgets/gif_grid.dart';
+import 'package:giphy_search_app/ui/widgets/search_bar.dart' as my_search_bar;
 
 class SearchView extends StatelessWidget {
+  const SearchView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => GiphyProvider(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Giphy Search')),
-        body: Column(
+        appBar: AppBar(title: const Text('Giphy Search')),
+        body: const Column(
           children: [
-            mySearchBar.SearchBar(), 
+            my_search_bar.SearchBar(), 
             Expanded(child: GifGrid()),
           ],
         ),

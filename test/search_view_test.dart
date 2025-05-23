@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import '../lib/ui/views/search_view.dart'; // Adjust the import based on your project structure
-import '../lib/ui/widgets/gif_grid.dart';
-import '../lib/ui/widgets/search_bar.dart' as mySearchBar;
-import '../lib/providers/giphy_provider.dart';
+import 'package:giphy_search_app/ui/views/search_view.dart'; // Adjust the import based on your project structure
+import 'package:giphy_search_app/ui/widgets/gif_grid.dart';
+import 'package:giphy_search_app/ui/widgets/search_bar.dart' as my_search_bar;
+import 'package:giphy_search_app/providers/giphy_provider.dart';
 
 void main() {
   testWidgets('SearchView displays SearchBar and GifGrid', (WidgetTester tester) async {
@@ -13,14 +13,14 @@ void main() {
       MaterialApp(
         home: ChangeNotifierProvider(
           create: (_) => GiphyProvider(),
-          child: SearchView(),
+          child: const SearchView(),
         ),
       ),
     );
 
     // Assert
     // Verify that SearchBar is displayed
-    expect(find.byWidgetPredicate((widget) => widget is mySearchBar.SearchBar), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is my_search_bar.SearchBar), findsOneWidget);
 
     // Verify that GifGrid is displayed
     expect(find.byType(GifGrid), findsOneWidget);
@@ -35,7 +35,7 @@ void main() {
       MaterialApp(
         home: ChangeNotifierProvider(
           create: (_) => GiphyProvider(),
-          child: SearchView(),
+          child: const SearchView(),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/gif.dart';
-import '../utils/network_checker.dart';
+import 'package:giphy_search_app/models/gif.dart';
+import 'package:giphy_search_app/utils/network_checker.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 

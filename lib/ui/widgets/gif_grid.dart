@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../providers/giphy_provider.dart';
-import '../../utils/coordinator.dart'; 
+import 'package:giphy_search_app/providers/giphy_provider.dart';
+import 'package:giphy_search_app/utils/coordinator.dart'; 
 
 class GifGrid extends StatefulWidget {
+  const GifGrid({super.key});
+
   @override
-  _GifGridState createState() => _GifGridState();
+  State <GifGrid> createState() => _GifGridState();
 }
 
 class _GifGridState extends State<GifGrid> {
@@ -48,22 +50,28 @@ class _GifGridState extends State<GifGrid> {
       }
     });
     if (provider.errorMessage != null) {
-      return Center(child: Text(provider.errorMessage!));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final scaffold = ScaffoldMessenger.of(context);
+        scaffold.clearSnackBars();
+        scaffold.showSnackBar(
+          SnackBar(content: Text(provider.errorMessage!)),
+        );
+      });
     }
   //loadingIndicator is shown  olny if last gif list is empty, while loading if last list is not empty, keep showing last gifs.
     if (provider.isLoading && provider.gifs.isEmpty) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
   //if after loading list is still empty, no gifs have been found 
     if (!provider.isLoading && provider.gifs.isEmpty) {
-      return Center(child: Text('No gifs found'));
+      return const Center(child: Text('No gifs found'));
     }
 
     return GridView.builder(
       controller: _scrollController,
       itemCount: provider.gifs.length,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 200,
         childAspectRatio: 1.0,
         crossAxisSpacing: 4.0,
@@ -77,8 +85,8 @@ class _GifGridState extends State<GifGrid> {
           },
           child: CachedNetworkImage(
             imageUrl: gif.url,
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         );
       },

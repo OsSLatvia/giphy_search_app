@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../lib/ui/widgets/gif_grid.dart';
-import '../lib/providers/giphy_provider.dart';
-import '../lib/models/gif.dart';
+import 'package:giphy_search_app/ui/widgets/gif_grid.dart';
+import 'package:giphy_search_app/providers/giphy_provider.dart';
+import 'package:giphy_search_app/models/gif.dart';
 
 class MockGiphyProvider extends ChangeNotifier implements GiphyProvider {
   @override
@@ -38,18 +38,18 @@ List<Gif> generateGifList(int count) {
   return List.generate(count, (index) => Gif(
     id: '$index',
     url: 'https://via.placeholder.com/150',
-    original_size_url: 'https://via.placeholder.com/600',
-    original_size_height: '600',
-    original_size_width: '600',
+    originalSizeUrl: 'https://via.placeholder.com/600',
+    originalSizeHeight: '600',
+    originalSizeWidth: '600',
     title: 'Test Gif $index',
     username: 'test_user',
-    import_datetime: '2024-07-29 12:00:00',
+    importDatetime: '2024-07-29 12:00:00',
   ));
 }
 Widget createWidgetUnderTest(mockGiphyProvider) {
   return ChangeNotifierProvider<GiphyProvider>(
     create: (context) => mockGiphyProvider,
-    child: MaterialApp(
+    child: const MaterialApp(
       home: Scaffold(
         body: GifGrid(),
       ),
